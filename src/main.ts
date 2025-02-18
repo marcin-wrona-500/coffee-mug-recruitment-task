@@ -1,6 +1,8 @@
 import dotenv from 'dotenv';
 import express from 'express';
 
+import routes from './routes';
+
 // make "process.env" match our defined environment variables in TypeScript
 import { EnvironmentConfig } from './types/env.d';
 declare global {
@@ -18,8 +20,6 @@ dotenv.config({
 
 const app = express();
 
-app.use((_req, res) => {
-	res.send('Hello world from Express');
-});
+app.use(routes);
 
 app.listen(process.env.PORT);
