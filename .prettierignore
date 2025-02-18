@@ -1,0 +1,6 @@
+# binaries directory
+dist/
+# don't mess with the package managers' formatting
+package.json
+package-lock.json
+
