@@ -8,7 +8,12 @@
 		"noUnusedParameters": true,
 		"forceConsistentCasingInFileNames": true,
 		"resolveJsonModule": true,
-		"outDir": "dist"
+		"outDir": "dist",
+		"paths": {
+			"routes/*": ["./src/routes/*"],
+			"types/*": ["./src/types/*"]
+		},
+		"plugins": [{ "transform": "typescript-transform-paths" }]
 	},
 	"include": ["**/*.ts"],
 	"exclude": ["node_modules"]

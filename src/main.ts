@@ -1,10 +1,10 @@
 import dotenv from 'dotenv';
 import express from 'express';
 
-import routes from './routes';
+import routes from 'routes/index';
 
 // make "process.env" match our defined environment variables in TypeScript
-import { EnvironmentConfig } from './types/env.d';
+import { EnvironmentConfig } from 'types/env.d';
 declare global {
 	// eslint-disable-next-line @typescript-eslint/no-namespace
 	namespace NodeJS {
