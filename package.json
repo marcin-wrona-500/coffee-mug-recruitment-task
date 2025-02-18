@@ -2,8 +2,10 @@
   "name": "coffee-mug-recruitment-task",
   "version": "1.0.0",
   "description": "Recruitment task for Coffee Mug",
-  "main": "main.js",
+  "main": "dist/main.js",
   "scripts": {
+    "build": "tsc",
+    "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Marcin Wrona",
@@ -11,11 +13,15 @@
   "private": true,
   "devDependencies": {
     "@eslint/js": "^9.20.0",
+    "@types/express": "^5.0.0",
     "@types/node": "^22.13.4",
     "eslint": "^9.20.1",
     "globals": "^15.15.0",
     "prettier": "^3.5.1",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.24.1"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
   }
 }
