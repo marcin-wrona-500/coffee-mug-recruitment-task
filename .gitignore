@@ -4,6 +4,11 @@ dist/
 # built binaries
 dist/
 
+# application configuration
+.env*
+# ...but keep the default / "base" config checked into version control
+!.env
+
 # from https://gitignore.io:
 
 # Stores VSCode versions used for testing VSCode extensions
