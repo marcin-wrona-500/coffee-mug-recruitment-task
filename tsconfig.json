@@ -11,7 +11,8 @@
 		"outDir": "dist",
 		"paths": {
 			"routes/*": ["./src/routes/*"],
-			"types/*": ["./src/types/*"]
+			"types/*": ["./src/types/*"],
+			"utils/*": ["./src/utils/*"]
 		},
 		"plugins": [{ "transform": "typescript-transform-paths" }]
 	},
