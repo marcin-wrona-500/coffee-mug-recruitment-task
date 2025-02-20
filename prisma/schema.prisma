@@ -8,11 +8,34 @@ datasource db {
 }
 
 model Product {
-  id          Int     @id @default(autoincrement()) @db.UnsignedInt
-  name        String  @db.VarChar(50)
-  description String  @db.VarChar(50)
+  id          Int         @id @default(autoincrement()) @db.UnsignedInt
+  name        String      @db.VarChar(50)
+  description String      @db.VarChar(50)
   // the prisma schema does not have a way to store this but:
   // the following 2 fields *need* to be defined as unsigned in the DB!
-  price       Decimal @db.Decimal(7, 2)
-  stock       Decimal @db.Decimal(10, 0)
+  price       Decimal     @db.Decimal(7, 2)
+  stock       Decimal     @db.Decimal(10, 2)
+  OrderItem   OrderItem[]
+}
+
+model Order {
+  id          Int         @id @default(autoincrement()) @db.UnsignedInt
+  id_Customer Int         @db.UnsignedInt
+  total_items Decimal     @db.Decimal(7, 0) // unsigned
+  total       Decimal     @db.Decimal(10, 2) // unsigned
+  OrderItem   OrderItem[]
+}
+
+model OrderItem {
+  id         Int     @id @default(autoincrement()) @db.UnsignedInt
+  id_Order   Int     @db.UnsignedInt
+  id_Product Int     @db.UnsignedInt
+  unit_price Decimal @db.Decimal(7, 2) // unsigned
+  quantity   Decimal @db.Decimal(5, 0) // unsigned
+  total      Decimal @db.Decimal(10, 0) // unsigned
+  Order      Order   @relation(fields: [id_Order], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "OrderItem__Order__FK")
+  Product    Product @relation(fields: [id_Product], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "OrderItem__Product__FK")
+
+  @@index([id_Order], map: "OrderItem__Order__FK_idx")
+  @@index([id_Product], map: "OrderItem__Product__FK_idx")
 }
