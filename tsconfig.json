@@ -10,6 +10,8 @@
 		"resolveJsonModule": true,
 		"outDir": "dist",
 		"paths": {
+			"commands/*": ["./src/commands/*"],
+			"controllers/*": ["./src/controllers/*"],
 			"routes/*": ["./src/routes/*"],
 			"types/*": ["./src/types/*"],
 			"utils/*": ["./src/utils/*"]
