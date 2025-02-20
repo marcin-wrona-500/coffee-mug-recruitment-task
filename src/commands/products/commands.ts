@@ -13,3 +13,12 @@ export const createProductCommand = yup
 	.required()
 	.exact();
 export type CreateProductCommand = yup.InferType<typeof createProductCommand>;
+
+export const increaseStockCommand = yup
+	.object({
+		id: yup.number().required().integer().positive(),
+		amount: yup.number().required().integer().positive(),
+	})
+	.required()
+	.exact();
+export type IncreaseStockCommand = yup.InferType<typeof increaseStockCommand>;
