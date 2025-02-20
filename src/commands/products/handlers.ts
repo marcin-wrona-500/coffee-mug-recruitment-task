@@ -10,3 +10,9 @@ export const increaseStock = ({ id, amount }: IncreaseStockCommand) =>
 		data: { stock: { increment: amount } },
 		where: { id },
 	});
+
+export const decreaseStock = ({ id, amount }: IncreaseStockCommand) =>
+	prisma.product.update({
+		data: { stock: { decrement: amount } },
+		where: { id },
+	});
