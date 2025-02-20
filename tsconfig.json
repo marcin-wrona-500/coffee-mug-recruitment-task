@@ -12,6 +12,7 @@
 		"paths": {
 			"commands/*": ["./src/commands/*"],
 			"controllers/*": ["./src/controllers/*"],
+			"middleware/*": ["./src/middleware/*"],
 			"routes/*": ["./src/routes/*"],
 			"types/*": ["./src/types/*"],
 			"utils/*": ["./src/utils/*"]
