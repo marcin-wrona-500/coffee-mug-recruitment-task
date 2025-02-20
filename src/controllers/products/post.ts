@@ -5,7 +5,7 @@ import { CreateProductCommand } from 'commands/products';
 import { createProduct } from 'commands/products/handlers';
 
 const handler: RequestHandler = expressAsyncHandler(async (req, res) => {
-	const command = req.body as CreateProductCommand;
+	const command = req.parsed.body as CreateProductCommand;
 
 	await createProduct(command);
 
