@@ -6,6 +6,8 @@ import productsRoute from './products';
 
 const router = express.Router();
 
+router.use(express.json());
+
 router.use('/products', productsRoute);
 
 router.use(errorHandler);
