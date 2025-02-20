@@ -22,3 +22,12 @@ export const increaseStockCommand = yup
 	.required()
 	.exact();
 export type IncreaseStockCommand = yup.InferType<typeof increaseStockCommand>;
+
+export const decreaseStockCommand = yup
+	.object({
+		id: yup.number().required().integer().positive(),
+		amount: yup.number().required().integer().positive(),
+	})
+	.required()
+	.exact();
+export type DecreaseStockCommand = yup.InferType<typeof decreaseStockCommand>;

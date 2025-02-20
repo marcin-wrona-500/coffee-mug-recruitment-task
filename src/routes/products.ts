@@ -9,6 +9,9 @@ import postProducts from 'controllers/products/post';
 import restockProduct from 'controllers/products/:id/restock';
 import { bodySchema as restockBodySchema } from 'controllers/products/:id/restock';
 
+import sellProduct, { understockErrorHandler } from 'controllers/products/:id/sell';
+import { bodySchema as sellBodySchema } from 'controllers/products/:id/sell';
+
 import { paramsSchema } from 'controllers/products/:id/types';
 
 const router = Router();
@@ -19,6 +22,12 @@ router.post(
 	'/:id/restock',
 	validator({ body: restockBodySchema, params: paramsSchema }),
 	restockProduct
+);
+router.post(
+	'/:id/sell',
+	validator({ body: sellBodySchema, params: paramsSchema }),
+	sellProduct,
+	understockErrorHandler
 );
 
 export default router;
