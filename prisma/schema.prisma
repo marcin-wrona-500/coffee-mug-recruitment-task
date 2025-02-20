@@ -6,3 +6,11 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Product {
+  id          Int     @id @default(autoincrement()) @db.UnsignedInt
+  name        String  @db.VarChar(50)
+  description String  @db.VarChar(50)
+  price       Decimal @db.Decimal(7, 2)
+  stock       Decimal @db.Decimal(10, 0)
+}
