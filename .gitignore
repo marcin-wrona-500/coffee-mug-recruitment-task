@@ -9,6 +9,9 @@ dist/
 # ...but keep the default / "base" config checked into version control
 !.env
 
+# MySQL Workbench backups
+**/*.mwb.bak
+
 # from https://gitignore.io:
 
 # Stores VSCode versions used for testing VSCode extensions
