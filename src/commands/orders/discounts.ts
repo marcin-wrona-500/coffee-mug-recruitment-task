@@ -1,4 +1,4 @@
-import { getOrderQuantity } from './utils';
+import { getOrderQuantity, isBlackFriday, isPolishHoliday } from './utils';
 
 import { Discount } from './types';
 
@@ -14,6 +14,14 @@ const discounts = [
 	{
 		percent: 30,
 		isApplicable: ({ order }) => getOrderQuantity(order).gt(50),
+	},
+	{
+		percent: 25,
+		isApplicable: () => isBlackFriday(new Date()),
+	},
+	{
+		percent: 15,
+		isApplicable: () => isPolishHoliday(new Date()),
 	},
 ] as const satisfies Array<Discount>;
 
