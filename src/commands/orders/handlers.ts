@@ -1,11 +1,18 @@
 import Decimal from 'decimal.js';
 
+import { DecreaseStockCommand } from 'commands/products';
 import prisma from 'utils/prisma';
 import { sum } from 'utils/arrays';
 
 import { CreateOrderCommand } from './commands';
 
 export const createOrder = ({ customerId, products }: CreateOrderCommand) => {
+	const stockUpdateCommands = products.map<DecreaseStockCommand>(({ id, quantity }) => ({
+		id,
+		amount: quantity,
+	}));
+	const stockUpdates = stockUpdateCommands.map((command) => decreaseStock(command));
+
 	const productsWithTotals = products.map(({ quantity, unitPrice, ...rest }) => ({
 		quantity,
 		unitPrice,
@@ -14,8 +21,7 @@ export const createOrder = ({ customerId, products }: CreateOrderCommand) => {
 	}));
 	const totalItems = products.map(({ quantity }) => quantity).reduce(sum, new Decimal(0));
 	const orderTotal = productsWithTotals.map(({ total }) => total).reduce(sum, new Decimal(0));
-
-	return prisma.order.create({
+	const orderCreation = prisma.order.create({
 		include: { OrderItem: true },
 		data: {
 			id_Customer: customerId,
@@ -30,4 +36,8 @@ export const createOrder = ({ customerId, products }: CreateOrderCommand) => {
 			},
 		},
 	});
+
+	// do all operations in one DB transaction
+	// this will not allow order creation if there is not enough stock
+	return prisma.$transaction([orderCreation, ...stockUpdates]).then(([order]) => order);
 };
