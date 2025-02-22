@@ -1,7 +1,7 @@
 import { ErrorRequestHandler, RequestHandler } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 
-import { CreateOrderCommand, createOrder } from 'commands/orders';
+import { CreateOrderCommand, GetDiscountCommand, createOrder, getDiscount } from 'commands/orders';
 import prisma from 'utils/prisma';
 
 import { OrdersPostBodySchema } from './types';
@@ -36,6 +36,9 @@ const handler: RequestHandler = expressAsyncHandler(async (req, res) => {
 		...body,
 		products: productData,
 	};
+
+	const getDiscountCommand: GetDiscountCommand = { order: command };
+	command.discount = getDiscount(getDiscountCommand);
 
 	await createOrder(command);
 
