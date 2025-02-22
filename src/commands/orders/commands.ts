@@ -1,5 +1,7 @@
 import * as yup from 'yup';
 
+import { Alpha2 } from '@prisma/client';
+
 export const createOrderCommand = yup
 	.object({
 		customerId: yup.number().required().integer().positive(),
@@ -17,6 +19,7 @@ export const createOrderCommand = yup
 					.required()
 					.exact()
 			),
+		priceFactor: yup.number().required().integer().positive(),
 		discount: yup.number().notRequired().nonNullable().integer().positive(),
 	})
 	.required()
@@ -25,8 +28,16 @@ export type CreateOrderCommand = yup.InferType<typeof createOrderCommand>;
 
 export const getDiscountCommand = yup
 	.object({
-		order: createOrderCommand.omit(['discount']),
+		order: createOrderCommand.omit(['discount', 'priceFactor']),
 	})
 	.required()
 	.exact();
 export type GetDiscountCommand = yup.InferType<typeof getDiscountCommand>;
+
+export const getPriceFactorCommand = yup
+	.object({
+		country: yup.string().required().oneOf(Object.values(Alpha2)),
+	})
+	.required()
+	.exact();
+export type GetPriceFactorCommand = yup.InferType<typeof getPriceFactorCommand>;

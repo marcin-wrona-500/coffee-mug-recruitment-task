@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",
+    "countries-list": "^3.1.1",
     "date-holidays": "^3.23.22",
     "decimal.js": "^10.5.0",
     "dotenv": "^16.4.7",
