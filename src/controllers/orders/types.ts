@@ -1,7 +1,7 @@
 import { CreateOrderCommand, createOrderCommand } from 'commands/orders';
 import * as yup from 'yup';
 
-export const ordersPostBodySchema = createOrderCommand.omit(['discount']).shape({
+export const ordersPostBodySchema = createOrderCommand.omit(['discount', 'priceFactor']).shape({
 	products: (
 		yup.reach(createOrderCommand, 'products') as yup.ArraySchema<
 			CreateOrderCommand['products'],

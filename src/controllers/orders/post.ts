@@ -1,7 +1,15 @@
 import { ErrorRequestHandler, RequestHandler } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 
-import { CreateOrderCommand, GetDiscountCommand, createOrder, getDiscount } from 'commands/orders';
+import {
+	CreateOrderCommand,
+	GetDiscountCommand,
+	createOrder,
+	getDiscount,
+	GetPriceFactorCommand,
+	getPriceFactor,
+} from 'commands/orders';
+import { getCustomer, GetCustomerCommand } from 'commands/customers';
 import prisma from 'utils/prisma';
 
 import { OrdersPostBodySchema } from './types';
@@ -32,9 +40,21 @@ const handler: RequestHandler = expressAsyncHandler(async (req, res) => {
 		)
 	);
 
+	const getCustomerCommand: GetCustomerCommand = { id: body.customerId };
+	const customer = await getCustomer(getCustomerCommand);
+
+	if (!customer) {
+		res.status(400).json({ error: 'A customer with the specified ID does not exist' });
+		return;
+	}
+
+	const getPriceFactorCommand: GetPriceFactorCommand = { country: customer.country };
+	const priceFactor = getPriceFactor(getPriceFactorCommand);
+
 	const command: CreateOrderCommand = {
 		...body,
 		products: productData,
+		priceFactor,
 	};
 
 	const getDiscountCommand: GetDiscountCommand = { order: command };
