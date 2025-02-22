@@ -17,7 +17,16 @@ export const createOrderCommand = yup
 					.required()
 					.exact()
 			),
+		discount: yup.number().notRequired().nonNullable().integer().positive(),
 	})
 	.required()
 	.exact();
 export type CreateOrderCommand = yup.InferType<typeof createOrderCommand>;
+
+export const getDiscountCommand = yup
+	.object({
+		order: createOrderCommand.omit(['discount']),
+	})
+	.required()
+	.exact();
+export type GetDiscountCommand = yup.InferType<typeof getDiscountCommand>;
