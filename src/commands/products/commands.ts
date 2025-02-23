@@ -1,11 +1,13 @@
 import * as yup from 'yup';
 
+import { databaseId } from 'utils/yup';
+
 export const getProductsCommand = yup.mixed().oneOf([undefined]);
 export type GetProductsCommand = yup.InferType<typeof getProductsCommand>;
 
 export const getProductCommand = yup
 	.object({
-		id: yup.number().required().integer().positive(),
+		id: databaseId.required(),
 	})
 	.required()
 	.exact();
@@ -24,7 +26,7 @@ export type CreateProductCommand = yup.InferType<typeof createProductCommand>;
 
 export const increaseStockCommand = yup
 	.object({
-		id: yup.number().required().integer().positive(),
+		id: databaseId.required(),
 		amount: yup.number().required().integer().positive(),
 	})
 	.required()
@@ -33,7 +35,7 @@ export type IncreaseStockCommand = yup.InferType<typeof increaseStockCommand>;
 
 export const decreaseStockCommand = yup
 	.object({
-		id: yup.number().required().integer().positive(),
+		id: databaseId.required(),
 		amount: yup.number().required().integer().positive(),
 	})
 	.required()

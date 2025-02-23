@@ -1,10 +1,12 @@
 import * as yup from 'yup';
 
+import { databaseId } from 'utils/yup';
+
 import { Alpha2 } from '@prisma/client';
 
 export const createOrderCommand = yup
 	.object({
-		customerId: yup.number().required().integer().positive(),
+		customerId: databaseId.required(),
 		products: yup
 			.array()
 			.required()
@@ -12,7 +14,7 @@ export const createOrderCommand = yup
 			.of(
 				yup
 					.object({
-						id: yup.number().required().integer().positive(),
+						id: databaseId.required(),
 						unitPrice: yup.number().required().integer().positive(),
 						quantity: yup.number().required().integer().positive(),
 					})

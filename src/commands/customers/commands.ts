@@ -1,8 +1,10 @@
 import * as yup from 'yup';
 
+import { databaseId } from 'utils/yup';
+
 export const getCustomerCommand = yup
 	.object({
-		id: yup.number().required().integer().positive(),
+		id: databaseId.required(),
 	})
 	.required()
 	.exact();
