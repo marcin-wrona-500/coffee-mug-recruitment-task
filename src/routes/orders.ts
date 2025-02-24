@@ -2,7 +2,8 @@ import { Router } from 'express';
 
 import validator from 'middleware/yupValidator';
 
-import { postOrder, productNotFoundErrorHandler, ordersPostBodySchema } from 'controllers/orders';
+import { postOrder, ordersPostBodySchema } from 'controllers/orders';
+import { productNotFoundErrorHandler } from 'controllers/products/errors';
 
 const router = Router();
 

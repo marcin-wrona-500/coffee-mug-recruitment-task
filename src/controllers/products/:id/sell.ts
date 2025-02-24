@@ -7,6 +7,7 @@ import { Prisma } from '@prisma/client';
 import { decreaseStock, DecreaseStockCommand, decreaseStockCommand } from 'commands/products';
 
 import { Params } from './types';
+import { isProductNotFoundError } from '../errors';
 
 export const bodySchema = decreaseStockCommand.pick(['amount']);
 export type RequestBody = InferType<typeof bodySchema>;
@@ -17,7 +18,10 @@ const handler: RequestHandler = expressAsyncHandler(async (req, res) => {
 
 	const command: DecreaseStockCommand = { id, amount };
 
-	await decreaseStock(command);
+	await decreaseStock(command).catch((err) => {
+		if (isProductNotFoundError(err)) err.meta.recordId = id;
+		throw err;
+	});
 
 	res.end();
 });

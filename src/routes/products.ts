@@ -12,6 +12,8 @@ import { bodySchema as restockBodySchema } from 'controllers/products/:id/restoc
 import sellProduct, { understockErrorHandler } from 'controllers/products/:id/sell';
 import { bodySchema as sellBodySchema } from 'controllers/products/:id/sell';
 
+import { productNotFoundErrorHandler } from 'controllers/products/errors';
+
 import { paramsSchema } from 'controllers/products/:id/types';
 
 const router = Router();
@@ -21,12 +23,14 @@ router.post('', validator({ body: createProductCommand }), postProducts);
 router.post(
 	'/:id/restock',
 	validator({ body: restockBodySchema, params: paramsSchema }),
-	restockProduct
+	restockProduct,
+	productNotFoundErrorHandler
 );
 router.post(
 	'/:id/sell',
 	validator({ body: sellBodySchema, params: paramsSchema }),
 	sellProduct,
+	productNotFoundErrorHandler,
 	understockErrorHandler
 );
 
