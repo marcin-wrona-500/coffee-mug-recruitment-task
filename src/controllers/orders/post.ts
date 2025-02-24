@@ -1,4 +1,4 @@
-import { ErrorRequestHandler, RequestHandler } from 'express';
+import { RequestHandler } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 
 import {
@@ -10,10 +10,10 @@ import {
 	getPriceFactor,
 } from 'commands/orders';
 import { getCustomer, GetCustomerCommand } from 'commands/customers';
+import { isProductNotFoundError } from 'controllers/products/errors';
 import prisma from 'utils/prisma';
 
 import { OrdersPostBodySchema } from './types';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 const handler: RequestHandler = expressAsyncHandler(async (req, res) => {
 	const body = req.parsed.body as OrdersPostBodySchema;
@@ -26,10 +26,7 @@ const handler: RequestHandler = expressAsyncHandler(async (req, res) => {
 					where: { id },
 				})
 				.catch((err) => {
-					if (err instanceof PrismaClientKnownRequestError && err.code === 'P2025') {
-						if (!err.meta) err.meta = {};
-						err.meta.recordId = id;
-					}
+					if (isProductNotFoundError(err)) err.meta.recordId = id;
 					throw err;
 				})
 				.then(({ price }) => ({
@@ -64,16 +61,5 @@ const handler: RequestHandler = expressAsyncHandler(async (req, res) => {
 
 	res.end();
 });
-
-export const productNotFoundErrorHandler: ErrorRequestHandler = (err, _req, res, next) => {
-	if (!(err instanceof PrismaClientKnownRequestError && err.code === 'P2025')) return next(err);
-
-	const productId = err.meta?.recordId as number | undefined;
-
-	res.status(400).json({
-		error: 'A product with the specified ID does not exist',
-		...(productId ? { productId } : undefined),
-	});
-};
 
 export default handler;
