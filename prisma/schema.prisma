@@ -11,10 +11,8 @@ model Product {
   id          Int         @id @default(autoincrement()) @db.UnsignedInt
   name        String      @db.VarChar(50)
   description String      @db.VarChar(50)
-  // the prisma schema does not have a way to store this but:
-  // the following 2 fields *need* to be defined as unsigned in the DB!
-  price       Decimal     @db.Decimal(7, 2)
-  stock       Decimal     @db.Decimal(10, 2)
+  price       Decimal     @db.Decimal(7, 2) // unsigned
+  stock       Decimal     @db.Decimal(10, 2) // unsigned
   OrderItem   OrderItem[]
 }
 
