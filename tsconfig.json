@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"esModuleInterop": true,
 		"target": "ESNext",
 		"moduleResolution": "NodeNext",
 		"module": "NodeNext",
@@ -8,14 +9,17 @@
 		"noUnusedParameters": true,
 		"forceConsistentCasingInFileNames": true,
 		"resolveJsonModule": true,
+		"rootDir": "src",
 		"outDir": "dist",
 		"paths": {
+			"commands/*": ["./src/commands/*"],
+			"controllers/*": ["./src/controllers/*"],
+			"middleware/*": ["./src/middleware/*"],
 			"routes/*": ["./src/routes/*"],
 			"types/*": ["./src/types/*"],
 			"utils/*": ["./src/utils/*"]
 		},
 		"plugins": [{ "transform": "typescript-transform-paths" }]
 	},
-	"include": ["**/*.ts"],
-	"exclude": ["node_modules"]
+	"include": ["src/**/*.ts"]
 }
